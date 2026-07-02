@@ -1,12 +1,22 @@
 package com.lastmile.delivery.entity;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 @Table(name="roles")
 public class Role {
     @Id
@@ -16,26 +26,6 @@ public class Role {
     @Column(nullable =false, unique = true)
     private String name;
 
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Role() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-    
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    
-
-    
+   @OneToMany(mappedBy = "role")
+    private List<User> users;
 }
