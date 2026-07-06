@@ -10,6 +10,8 @@ import com.lastmile.delivery.dto.RegisterRequest;
 import com.lastmile.delivery.dto.UserResponse;
 import com.lastmile.delivery.service.impl.UserServiceImpl;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -18,7 +20,7 @@ public class UserController {
     private UserServiceImpl userService;
     
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterRequest request) {
         UserResponse userResponse = userService.register(request);
         return ResponseEntity.ok(userResponse);
     }

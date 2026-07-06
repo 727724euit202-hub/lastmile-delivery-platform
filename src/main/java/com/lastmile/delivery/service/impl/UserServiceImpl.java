@@ -6,6 +6,9 @@ import com.lastmile.delivery.dto.RegisterRequest;
 import com.lastmile.delivery.dto.UserResponse;
 import com.lastmile.delivery.entity.Role;
 import com.lastmile.delivery.entity.User;
+import com.lastmile.delivery.exception.EmailAlreadyExistsException;
+import com.lastmile.delivery.exception.PhoneNumberAlreadyExistsException;
+import com.lastmile.delivery.exception.RoleNotFoundException;
 import com.lastmile.delivery.repository.RoleRepository;
 import com.lastmile.delivery.repository.UserRepository;
 import com.lastmile.delivery.service.UserService;
@@ -24,14 +27,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponse register(RegisterRequest request){
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email is already registered");
+            throw new EmailAlreadyExistsException("Email is already registered");
         }
 
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-            throw new RuntimeException("Phone number is already registered");
+            throw new PhoneNumberAlreadyExistsException("Phone number is already registered");
         }
         
-        Role customerRole = roleRepository.findByName("CUSTOMER").orElseThrow(() -> new RuntimeException("CUSTOMER role not found"));
+        Role customerRole = roleRepository.findByName("CUSTOMER").orElseThrow(() -> new RoleNotFoundException("CUSTOMER role not found"));
         
         User user = new User();
         user.setName(request.getName());
