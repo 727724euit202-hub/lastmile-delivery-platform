@@ -35,7 +35,7 @@ public class User {
     @Column(nullable = false , unique = true)
     private String phoneNumber;
 
-    
+    @Column
     private Boolean active=true;
 
     @Column(nullable = false)
