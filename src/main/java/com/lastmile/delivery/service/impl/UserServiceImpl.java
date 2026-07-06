@@ -3,6 +3,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lastmile.delivery.dto.RegisterRequest;
+import com.lastmile.delivery.dto.UserResponse;
 import com.lastmile.delivery.entity.Role;
 import com.lastmile.delivery.entity.User;
 import com.lastmile.delivery.repository.RoleRepository;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User register(RegisterRequest request){
+    public UserResponse register(RegisterRequest request){
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email is already registered");
         }
@@ -39,7 +40,16 @@ public class UserServiceImpl implements UserService{
         user.setPhoneNumber(request.getPhoneNumber());
         user.setRole(customerRole);
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setName(user.getName());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setRole(user.getRole().getName());
+        userResponse.setActive(user.getActive());
+        return userResponse;
     }
 
     

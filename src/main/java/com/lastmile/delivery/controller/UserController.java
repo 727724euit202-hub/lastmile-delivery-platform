@@ -8,26 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lastmile.delivery.dto.RegisterRequest;
 import com.lastmile.delivery.dto.UserResponse;
-import com.lastmile.delivery.entity.User;
-import com.lastmile.delivery.service.UserService;
+import com.lastmile.delivery.service.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody RegisterRequest request) {
-        User registeredUser = userService.register(request);
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(registeredUser.getId());
-        userResponse.setName(registeredUser.getName());
-        userResponse.setEmail(registeredUser.getEmail());
-        userResponse.setPhoneNumber(registeredUser.getPhoneNumber());
-        userResponse.setRole(registeredUser.getRole().getName());
-        userResponse.setActive(registeredUser.getActive());
+        UserResponse userResponse = userService.register(request);
         return ResponseEntity.ok(userResponse);
     }
 
