@@ -1,5 +1,4 @@
 package com.lastmile.delivery.entity;
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
